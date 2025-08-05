@@ -1,9 +1,10 @@
 import TaskCard from "../components/TaskCard";
 import TodoModal from "../components/Modal";
 import { type TaskCardProps } from "../libs/Todolist";
+import { useState } from "react";
 
 function App() {
-  const tasks: TaskCardProps[] = [
+  const [tasks, setTasks] = useState  <TaskCardProps[]> ([
     {
       id: "1",
       title: "Read a book",
@@ -22,12 +23,36 @@ function App() {
       description: "Push project to GitHub Pages",
       isDone: true,
     },
-  ];
+  ]);
+
+  const handleAdd = (newTask: TaskCardProps) => {
+  const newTasks =  [...tasks, newTask]
+  setTasks(newTasks);
+};
+
+  const deleteTask = (taskId: string) => {
+  const newTasks =  tasks.filter((task: TaskCardProps) => task.id !== taskId);
+  setTasks(newTasks);
+};
+
+  const toggleDoneTask  = (taskId: string) => {
+  const newTasks =  tasks.map((todo: TaskCardProps) => todo.id === taskId ? {...todo, isDone: !todo.isDone} : todo
+);
+  setTasks(newTasks);
+};
+
+const doneLength = tasks.filter((task) => task.isDone).length;
+const allLength = tasks.filter((task) => task).length;
 
   return (
     <div className="col-12 m-2 p-0">
       <div className="container text-center">
         <h2>Todo List</h2>
+
+        <span className="m-2">
+          All : ( {allLength} ) Done : ( {doneLength} )
+        </span>
+
         <button
           type="button"
           className="btn btn-primary my-3"
@@ -37,13 +62,19 @@ function App() {
           Add
         </button>
         {/* Modal Component */}
-        <TodoModal />
+        {/* <TodoModal /> */}
         {/* TaskCard Component */}
+        <TodoModal onAdd= { handleAdd }/>
+        
         {tasks.map((task) => (
           <TaskCard
             id={task.id}
             title={task.title}
             description={task.description}
+
+            deleteTaskFunc = {deleteTask}
+            toggleDoneTaskFunc = {toggleDoneTask}
+
             isDone={task.isDone}
             key={task.id}
           />
