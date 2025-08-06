@@ -1,4 +1,5 @@
-import { use, useState } from "react";
+//import { use, useState } from "react";
+import { useState } from "react";
 
 export default function HelloMyNamePage() {
   const [name, setName] = useState("");

@@ -1,4 +1,5 @@
-import { use, useState } from "react";
+//import { use, useState } from "react";
+import { useState } from "react";
 
 export default function CounterPage() {
   const [counter, setCounter]= useState(0);
